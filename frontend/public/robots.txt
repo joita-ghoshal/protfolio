@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /jg-admin/
+
+Sitemap: https://mydomain.com/sitemap.xml
