@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenu, HiX } from 'react-icons/hi';
 
-const navLinks = [
+const NAV_ITEMS = [
   { label: 'Home', href: '#hero' },
   { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
@@ -13,79 +13,120 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar() {
+const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const navRef = useRef(null);
+  const linkRefs = useRef({});
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    const sections = navLinks.map((l) => l.href.slice(1));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { threshold: 0.3 }
-    );
-    sections.forEach((id) => {
+    const sectionIds = NAV_ITEMS.map((item) => item.href.slice(1));
+    const observers = [];
+
+    sectionIds.forEach((id) => {
       const el = document.getElementById(id);
-      if (el) observer.observe(el);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { threshold: 0.35 }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
     });
-    return () => observer.disconnect();
+
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, []);
+
+  const scrollToSection = useCallback((href) => {
+    const id = href.slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = navRef.current?.offsetHeight || 80;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+    setMobileOpen(false);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass-nav shadow-soft' : 'bg-transparent'
+      ref={navRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-[rgba(10,10,18,0.85)] backdrop-blur-[24px] shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
+          : 'bg-transparent'
       }`}
-      role="navigation"
-      aria-label="Main navigation"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <motion.a
             href="#hero"
-            className="text-xl font-bold gradient-text"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection('#hero');
+            }}
+            className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-[#00E5FF] via-[#7B61FF] to-[#FF6B9D] bg-clip-text text-transparent select-none"
+            animate={{ y: [0, -3, 0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           >
-            Portfolio
+            JG
           </motion.a>
 
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link, i) => (
-              <motion.a
-                key={link.label}
-                href={link.href}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeSection === link.href.slice(1)
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-secondary-text hover:text-primary hover:bg-gray-50'
-                }`}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
-                {link.label}
-              </motion.a>
-            ))}
+          <div className="hidden md:flex items-center gap-1 relative">
+            {NAV_ITEMS.map((item) => {
+              const sectionId = item.href.slice(1);
+              const isActive = activeSection === sectionId;
+
+              return (
+                <a
+                  key={item.href}
+                  ref={(el) => (linkRefs.current[sectionId] = el)}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToSection(item.href);
+                  }}
+                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                    isActive
+                      ? 'text-[#00E5FF]'
+                      : 'text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navIndicator"
+                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#00E5FF] rounded-full"
+                      style={{
+                        boxShadow: '0 0 8px #00E5FF, 0 0 20px rgba(0,229,255,0.4)',
+                      }}
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
           </div>
 
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
+            aria-label="Toggle menu"
           >
-            {mobileOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+            {mobileOpen ? <HiX size={26} /> : <HiMenu size={26} />}
           </button>
         </div>
       </div>
@@ -96,27 +137,38 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass-nav border-t border-border/50 overflow-hidden"
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="md:hidden overflow-hidden bg-[rgba(10,10,18,0.95)] backdrop-blur-[24px] border-t border-white/5"
           >
-            <div className="px-4 py-4 space-y-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    activeSection === link.href.slice(1)
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-secondary-text hover:text-primary hover:bg-gray-50'
-                  }`}
-                >
-                  {link.label}
-                </a>
-              ))}
+            <div className="px-4 py-4 space-y-1">
+              {NAV_ITEMS.map((item) => {
+                const sectionId = item.href.slice(1);
+                const isActive = activeSection === sectionId;
+
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(item.href);
+                    }}
+                    className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'text-[#00E5FF] bg-[#00E5FF]/10'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </nav>
   );
-}
+};
+
+export default Navbar;

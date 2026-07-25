@@ -116,7 +116,7 @@ export default function ProjectsPanel() {
 
   if (loading) return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="admin-card p-8 md:p-10">
-      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-gray-200 rounded" /><div className="h-20 w-full bg-gray-200 rounded" /><div className="h-20 w-full bg-gray-200 rounded" /></div>
+      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-white/[0.03] rounded" /><div className="h-20 w-full bg-white/[0.03] rounded" /><div className="h-20 w-full bg-white/[0.03] rounded" /></div>
     </motion.div>
   );
 
@@ -125,8 +125,8 @@ export default function ProjectsPanel() {
       <div className="admin-card p-8 md:p-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center"><FiFolder className="w-7 h-7 text-primary" /></div>
-            <div><h2 className="text-2xl font-bold text-primary-text">Projects</h2><p className="text-secondary-text text-sm">Manage your portfolio projects</p></div>
+            <div className="w-14 h-14 rounded-2xl bg-[#00E5FF]/10 flex items-center justify-center"><FiFolder className="w-7 h-7 text-[#00E5FF]" /></div>
+            <div><h2 className="text-2xl font-bold text-white">Projects</h2><p className="text-[#94A3B8] text-sm">Manage your portfolio projects</p></div>
           </div>
           <button onClick={() => { resetForm(); setShowForm(!showForm); }} className="premium-btn flex items-center gap-2">
             <FiPlus className="w-4 h-4" /> {showForm ? 'Cancel' : 'Add Project'}
@@ -134,42 +134,42 @@ export default function ProjectsPanel() {
         </div>
 
         {msg && (
-          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-[#EF4444]/10 text-[#EF4444]'}`}>
             {msg.type === 'success' ? <FiSave className="w-5 h-5 shrink-0" /> : <FiX className="w-5 h-5 shrink-0" />}
             <span className="text-sm font-medium">{msg.text}</span>
           </div>
         )}
 
         {showForm && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="border border-border rounded-2xl p-6 mb-6 bg-secondary-bg/50">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="border border-white/[0.06] rounded-2xl p-6 mb-6 bg-white/[0.03]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Title</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Title</label>
                 <input type="text" name="title" value={form.title} onChange={handleChange} className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Technologies (comma separated)</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Technologies (comma separated)</label>
                 <input type="text" name="technologies" value={form.technologies} onChange={handleChange} className="input-field" />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Description</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Description</label>
                 <textarea name="description" rows={3} value={form.description} onChange={handleChange} className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">GitHub Link</label>
+                <label className="block text-sm font-medium text-white mb-1.5">GitHub Link</label>
                 <input type="url" name="github_link" value={form.github_link} onChange={handleChange} className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Live Demo</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Live Demo</label>
                 <input type="url" name="live_demo" value={form.live_demo} onChange={handleChange} className="input-field" />
               </div>
               <div className="flex items-center gap-6">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} className="w-4 h-4 rounded border-border text-primary focus:ring-primary" />
-                  <span className="text-sm text-primary-text">Featured</span>
+                  <input type="checkbox" name="featured" checked={form.featured} onChange={handleChange} className="w-4 h-4 rounded border-border text-[#00E5FF] focus:ring-[#00E5FF]" />
+                  <span className="text-sm text-white">Featured</span>
                 </label>
                 <div>
-                  <label className="block text-sm font-medium text-primary-text mb-1.5">Status</label>
+                  <label className="block text-sm font-medium text-white mb-1.5">Status</label>
                   <select name="status" value={form.status} onChange={handleChange} className="input-field">
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
@@ -189,15 +189,15 @@ export default function ProjectsPanel() {
         {projects.length === 0 && !showForm ? (
           <div className="border-t border-border pt-8 text-center py-12">
             <FiFolder className="w-16 h-16 mx-auto text-border mb-4" />
-            <p className="text-secondary-text text-lg font-medium">No projects yet</p>
-            <p className="text-secondary-text text-sm mt-1">Click "Add Project" to create your first project</p>
+            <p className="text-[#94A3B8] text-lg font-medium">No projects yet</p>
+            <p className="text-[#94A3B8] text-sm mt-1">Click "Add Project" to create your first project</p>
           </div>
         ) : (
           <div className="border-t border-border pt-6">
             <motion.div variants={container} initial="hidden" animate="show" className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="text-secondary-text text-sm border-b border-border">
+                  <tr className="text-[#94A3B8] text-sm border-b border-border">
                     <th className="pb-3 font-medium">Project</th>
                     <th className="pb-3 font-medium">Status</th>
                     <th className="pb-3 font-medium">Featured</th>
@@ -207,30 +207,30 @@ export default function ProjectsPanel() {
                 </thead>
                 <tbody>
                   {projects.map((project) => (
-                    <motion.tr key={project._id} variants={item} className="border-b border-border/50 hover:bg-secondary-bg/50 transition-colors">
+                    <motion.tr key={project._id} variants={item} className="border-b border-border/50 hover:bg-[#0D0D1A]/50 transition-colors">
                       <td className="py-4 pr-4">
                         <div className="flex items-center gap-3">
                           {project.thumbnail && <img src={project.thumbnail} alt="" className="w-10 h-10 rounded-lg object-cover" />}
-                          <span className="text-primary-text font-medium">{project.title}</span>
+                          <span className="text-white font-medium">{project.title}</span>
                         </div>
                       </td>
                       <td className="py-4 pr-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${project.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${project.status === 'published' ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-[#F59E0B]/10 text-[#F59E0B]'}`}>
                           {project.status}
                         </span>
                       </td>
                       <td className="py-4 pr-4">
-                        <button onClick={() => handleToggleFeatured(project)} className={`p-1.5 rounded-lg transition-colors ${project.featured ? 'text-amber-500 bg-amber-50' : 'text-gray-300 hover:text-amber-500 hover:bg-amber-50'}`}>
+                        <button onClick={() => handleToggleFeatured(project)} className={`p-1.5 rounded-lg transition-colors ${project.featured ? 'text-[#F59E0B] bg-[#F59E0B]/10' : 'text-[#94A3B8] hover:text-[#F59E0B] hover:bg-[#F59E0B]/10'}`}>
                           <FiStar className="w-4 h-4" />
                         </button>
                       </td>
                       <td className="py-4 pr-4">
                         <div className="flex items-center gap-2">
-                          <label className="p-1.5 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5 cursor-pointer transition-colors">
+                          <label className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#00E5FF]/5 cursor-pointer transition-colors">
                             <FiImage className="w-4 h-4" />
                             <input type="file" accept="image/*" onChange={(e) => handleUploadThumbnail(e, project._id)} className="hidden" />
                           </label>
-                          <label className="p-1.5 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5 cursor-pointer transition-colors">
+                          <label className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#00E5FF]/5 cursor-pointer transition-colors">
                             <FiPlus className="w-4 h-4" />
                             <input type="file" accept="image/*" onChange={(e) => handleUploadImage(e, project._id)} className="hidden" />
                           </label>
@@ -238,10 +238,10 @@ export default function ProjectsPanel() {
                       </td>
                       <td className="py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {project.github_link && <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors"><FiGithub className="w-4 h-4" /></a>}
-                          {project.live_demo && <a href={project.live_demo} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors"><FiExternalLink className="w-4 h-4" /></a>}
-                          <button onClick={() => openEdit(project)} className="p-1.5 rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors"><FiEdit2 className="w-4 h-4" /></button>
-                          <button onClick={() => handleDelete(project._id)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"><FiTrash2 className="w-4 h-4" /></button>
+                          {project.github_link && <a href={project.github_link} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#00E5FF]/5 transition-colors"><FiGithub className="w-4 h-4" /></a>}
+                          {project.live_demo && <a href={project.live_demo} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#00E5FF]/5 transition-colors"><FiExternalLink className="w-4 h-4" /></a>}
+                          <button onClick={() => openEdit(project)} className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 transition-colors"><FiEdit2 className="w-4 h-4" /></button>
+                          <button onClick={() => handleDelete(project._id)} className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors"><FiTrash2 className="w-4 h-4" /></button>
                         </div>
                       </td>
                     </motion.tr>

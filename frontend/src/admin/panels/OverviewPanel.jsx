@@ -18,12 +18,12 @@ const quickLinks = [
 ];
 
 const defaultStats = [
-  { label: 'Total Visitors', count: '—', icon: FiBarChart2, color: 'text-blue-600 bg-blue-100' },
-  { label: 'Total Views', count: '—', icon: FiBarChart2, color: 'text-green-600 bg-green-100' },
-  { label: 'Monthly Visitors', count: '—', icon: FiBarChart2, color: 'text-purple-600 bg-purple-100' },
-  { label: 'Projects', count: '—', icon: FiFolder, color: 'text-amber-600 bg-amber-100' },
-  { label: 'Skills', count: '—', icon: FiCode, color: 'text-cyan-600 bg-cyan-100' },
-  { label: 'Messages', count: '—', icon: FiMail, color: 'text-rose-600 bg-rose-100' },
+  { label: 'Total Visitors', count: '—', icon: FiBarChart2, color: 'text-[#00E5FF] bg-[#00E5FF]/10' },
+  { label: 'Total Views', count: '—', icon: FiBarChart2, color: 'text-[#10B981] bg-[#10B981]/10' },
+  { label: 'Monthly Visitors', count: '—', icon: FiBarChart2, color: 'text-[#7C3AED] bg-[#7C3AED]/10' },
+  { label: 'Projects', count: '—', icon: FiFolder, color: 'text-[#F59E0B] bg-[#F59E0B]/10' },
+  { label: 'Skills', count: '—', icon: FiCode, color: 'text-[#00E5FF] bg-[#00E5FF]/10' },
+  { label: 'Messages', count: '—', icon: FiMail, color: 'text-[#EF4444] bg-[#EF4444]/10' },
 ];
 
 export default function OverviewPanel() {
@@ -42,9 +42,9 @@ export default function OverviewPanel() {
       const s = data?.summary || data?.data || data;
       if (s) {
         setStats([
-          { label: 'Total Visitors', count: s.totalVisitors ?? s.total_visitors ?? '—', icon: FiUsers || FiBarChart2, color: 'text-blue-600 bg-blue-100' },
-          { label: 'Total Views', count: s.totalViews ?? s.total_views ?? '—', icon: FiEye || FiBarChart2, color: 'text-green-600 bg-green-100' },
-          { label: 'Monthly Visitors', count: s.monthlyVisitors ?? s.monthly_visitors ?? '—', icon: FiGlobe || FiBarChart2, color: 'text-purple-600 bg-purple-100' },
+          { label: 'Total Visitors', count: s.totalVisitors ?? s.total_visitors ?? '—', icon: FiUsers || FiBarChart2, color: 'text-[#00E5FF] bg-[#00E5FF]/10' },
+          { label: 'Total Views', count: s.totalViews ?? s.total_views ?? '—', icon: FiEye || FiBarChart2, color: 'text-[#10B981] bg-[#10B981]/10' },
+          { label: 'Monthly Visitors', count: s.monthlyVisitors ?? s.monthly_visitors ?? '—', icon: FiGlobe || FiBarChart2, color: 'text-[#7C3AED] bg-[#7C3AED]/10' },
           ...stats.slice(3),
         ]);
       }
@@ -58,23 +58,23 @@ export default function OverviewPanel() {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-6">
       <div className="admin-card p-8 md:p-10">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center"><FiGrid className="w-7 h-7 text-primary" /></div>
+          <div className="w-14 h-14 rounded-2xl bg-[#00E5FF]/10 flex items-center justify-center"><FiGrid className="w-7 h-7 text-[#00E5FF]" /></div>
           <div>
-            <h2 className="text-2xl font-bold text-primary-text">Welcome back, {admin?.username || 'Admin'}!</h2>
-            <p className="text-secondary-text text-sm">Here's an overview of your portfolio</p>
+            <h2 className="text-2xl font-bold text-white">Welcome back, {admin?.username || 'Admin'}!</h2>
+            <p className="text-[#94A3B8] text-sm">Here's an overview of your portfolio</p>
           </div>
         </div>
 
         <div className="border-t border-border pt-8">
           <motion.div variants={cont} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {stats.map((stat, i) => (
-              <motion.div key={stat.label + i} variants={child} className="flex items-center gap-4 p-5 rounded-xl bg-secondary-bg">
+              <motion.div key={stat.label + i} variants={child} className="flex items-center gap-4 p-5 rounded-xl bg-[#0D0D1A]">
                 <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
                   <stat.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-primary-text">{stat.count}</p>
-                  <p className="text-secondary-text text-sm">{stat.label}</p>
+                  <p className="text-2xl font-bold text-white">{stat.count}</p>
+                  <p className="text-[#94A3B8] text-sm">{stat.label}</p>
                 </div>
               </motion.div>
             ))}
@@ -83,23 +83,23 @@ export default function OverviewPanel() {
       </div>
 
       <div className="admin-card p-8 md:p-10">
-        <h3 className="text-lg font-semibold text-primary-text mb-6">Quick Links</h3>
+        <h3 className="text-lg font-semibold text-white mb-6">Quick Links</h3>
         <motion.div variants={cont} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {quickLinks.map((link) => (
             <motion.button
               key={link.path}
               variants={child}
               onClick={() => navigate(`/jg-admin/${link.path}`)}
-              className="flex items-center gap-4 p-4 rounded-xl bg-secondary-bg hover:bg-primary/5 transition-colors text-left group"
+              className="flex items-center gap-4 p-4 rounded-xl bg-[#0D0D1A] hover:bg-[#00E5FF]/5 transition-colors text-left group"
             >
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                <link.icon className="w-4 h-4 text-primary" />
+              <div className="w-10 h-10 rounded-xl bg-[#00E5FF]/10 flex items-center justify-center shrink-0">
+                <link.icon className="w-4 h-4 text-[#00E5FF]" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-primary-text text-sm">{link.label}</p>
-                <p className="text-xs text-secondary-text truncate">{link.desc}</p>
+                <p className="font-medium text-white text-sm">{link.label}</p>
+                <p className="text-xs text-[#94A3B8] truncate">{link.desc}</p>
               </div>
-              <FiArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors shrink-0" />
+              <FiArrowRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#00E5FF] transition-colors shrink-0" />
             </motion.button>
           ))}
         </motion.div>

@@ -106,18 +106,18 @@ export default function AdminDashboard() {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-white border-b border-border flex items-center justify-between px-4 md:px-8 sticky top-0 z-30">
+        <header className="h-16 bg-[#12121E] border-b border-white/[0.06] flex items-center justify-between px-4 md:px-8 sticky top-0 z-30">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-primary-text hover:text-primary transition-colors"
+              className="lg:hidden text-[#94A3B8] hover:text-[#00E5FF] transition-colors"
             >
               <FiMenu size={22} />
             </button>
-            <div className="hidden sm:flex items-center gap-2 text-sm text-secondary-text">
+            <div className="hidden sm:flex items-center gap-2 text-sm text-[#94A3B8]">
               <span className="hidden md:inline">Dashboard</span>
               <span className="hidden md:inline">/</span>
-              <span className="text-primary-text font-medium">
+              <span className="text-white font-medium">
                 {panels.find((p) => isActive(p.path))?.label || 'Overview'}
               </span>
             </div>
@@ -125,10 +125,10 @@ export default function AdminDashboard() {
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <FiUser className="w-4 h-4 text-primary" />
+              <div className="w-8 h-8 rounded-full bg-[#00E5FF]/10 flex items-center justify-center">
+                <FiUser className="w-4 h-4 text-[#00E5FF]" />
               </div>
-              <span className="text-sm font-medium text-primary-text hidden sm:block">
+              <span className="text-sm font-medium text-white hidden sm:block">
                 {admin?.username || 'Admin'}
               </span>
             </div>
@@ -142,7 +142,7 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-8 bg-[#0A0A12] overflow-y-auto">
           <AnimatePresence mode="wait">
             <Routes>
               <Route index element={<OverviewPanel />} />

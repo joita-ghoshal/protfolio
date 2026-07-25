@@ -48,15 +48,15 @@ export default function ContactPanel() {
 
   if (loading) return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="admin-card p-8 md:p-10">
-      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-gray-200 rounded" /><div className="h-10 w-full bg-gray-200 rounded" /><div className="h-10 w-full bg-gray-200 rounded" /></div>
+      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-white/[0.03] rounded" /><div className="h-10 w-full bg-white/[0.03] rounded" /><div className="h-10 w-full bg-white/[0.03] rounded" /></div>
     </motion.div>
   );
 
   if (!contact) return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="admin-card p-8 md:p-10">
       <div className="flex items-center gap-4 mb-6">
-        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center"><FiMail className="w-7 h-7 text-primary" /></div>
-        <div><h2 className="text-2xl font-bold text-primary-text">Contact</h2><p className="text-secondary-text text-sm">No contact record found. Please add one via the database.</p></div>
+        <div className="w-14 h-14 rounded-2xl bg-[#00E5FF]/10 flex items-center justify-center"><FiMail className="w-7 h-7 text-[#00E5FF]" /></div>
+        <div><h2 className="text-2xl font-bold text-white">Contact</h2><p className="text-[#94A3B8] text-sm">No contact record found. Please add one via the database.</p></div>
       </div>
     </motion.div>
   );
@@ -65,12 +65,12 @@ export default function ContactPanel() {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-6">
       <div className="admin-card p-8 md:p-10">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center"><FiMail className="w-7 h-7 text-primary" /></div>
-          <div><h2 className="text-2xl font-bold text-primary-text">Contact</h2><p className="text-secondary-text text-sm">Manage your contact information</p></div>
+          <div className="w-14 h-14 rounded-2xl bg-[#00E5FF]/10 flex items-center justify-center"><FiMail className="w-7 h-7 text-[#00E5FF]" /></div>
+          <div><h2 className="text-2xl font-bold text-white">Contact</h2><p className="text-[#94A3B8] text-sm">Manage your contact information</p></div>
         </div>
 
         {msg && (
-          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-[#EF4444]/10 text-[#EF4444]'}`}>
             {msg.type === 'success' ? <FiCheckCircle className="w-5 h-5 shrink-0" /> : <FiAlertCircle className="w-5 h-5 shrink-0" />}
             <span className="text-sm font-medium">{msg.text}</span>
           </div>
@@ -79,31 +79,31 @@ export default function ContactPanel() {
         <div className="border-t border-border pt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Email</label>
               <input type="email" name="email" value={form.email} onChange={handleChange} className="input-field" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Phone</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Phone</label>
               <input type="text" name="phone" value={form.phone} onChange={handleChange} className="input-field" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Address</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Address</label>
               <input type="text" name="address" value={form.address} onChange={handleChange} className="input-field" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">LinkedIn</label>
+              <label className="block text-sm font-medium text-white mb-1.5">LinkedIn</label>
               <input type="url" name="linkedin" value={form.linkedin} onChange={handleChange} className="input-field" placeholder="https://linkedin.com/in/..." />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">GitHub</label>
+              <label className="block text-sm font-medium text-white mb-1.5">GitHub</label>
               <input type="url" name="github" value={form.github} onChange={handleChange} className="input-field" placeholder="https://github.com/..." />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Website</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Website</label>
               <input type="url" name="website" value={form.website} onChange={handleChange} className="input-field" placeholder="https://..." />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Twitter</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Twitter</label>
               <input type="url" name="twitter" value={form.twitter} onChange={handleChange} className="input-field" placeholder="https://twitter.com/..." />
             </div>
           </div>

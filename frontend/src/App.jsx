@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -6,33 +6,32 @@ import Home from './pages/Home';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import ScrollExperience from './components/ScrollExperience';
 
 export default function App() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/jg-admin');
+  const isHome = location.pathname === '/';
+
   return (
-    <AnimatePresence mode="wait">
-      <Routes>
-        <Route path="/jg-admin/login" element={<AdminLogin />} />
-        <Route
-          path="/jg-admin/*"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-              </Routes>
-              <Footer />
-            </>
-          }
-        />
-      </Routes>
-    </AnimatePresence>
+    <>
+      {!isAdmin && <Navbar />}
+      {isHome && <ScrollExperience />}
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/jg-admin/login" element={<AdminLogin />} />
+          <Route
+            path="/jg-admin/*"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </AnimatePresence>
+      {!isAdmin && <Footer />}
+    </>
   );
 }

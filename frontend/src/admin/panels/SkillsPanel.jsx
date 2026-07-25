@@ -74,7 +74,7 @@ export default function SkillsPanel() {
 
   if (loading) return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="admin-card p-8 md:p-10">
-      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-gray-200 rounded" /><div className="h-20 w-full bg-gray-200 rounded" /></div>
+      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-white/[0.03] rounded" /><div className="h-20 w-full bg-white/[0.03] rounded" /></div>
     </motion.div>
   );
 
@@ -83,8 +83,8 @@ export default function SkillsPanel() {
       <div className="admin-card p-8 md:p-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center"><FiCode className="w-7 h-7 text-primary" /></div>
-            <div><h2 className="text-2xl font-bold text-primary-text">Skills</h2><p className="text-secondary-text text-sm">Manage your technical skills</p></div>
+            <div className="w-14 h-14 rounded-2xl bg-[#00E5FF]/10 flex items-center justify-center"><FiCode className="w-7 h-7 text-[#00E5FF]" /></div>
+            <div><h2 className="text-2xl font-bold text-white">Skills</h2><p className="text-[#94A3B8] text-sm">Manage your technical skills</p></div>
           </div>
           <button onClick={() => { resetForm(); setShowForm(!showForm); }} className="premium-btn flex items-center gap-2">
             <FiPlus className="w-4 h-4" /> {showForm ? 'Cancel' : 'Add Skill'}
@@ -92,31 +92,31 @@ export default function SkillsPanel() {
         </div>
 
         {msg && (
-          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-[#EF4444]/10 text-[#EF4444]'}`}>
             {msg.type === 'success' ? <FiSave className="w-5 h-5 shrink-0" /> : <FiX className="w-5 h-5 shrink-0" />}
             <span className="text-sm font-medium">{msg.text}</span>
           </div>
         )}
 
         {showForm && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="border border-border rounded-2xl p-6 mb-6 bg-secondary-bg/50">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="border border-white/[0.06] rounded-2xl p-6 mb-6 bg-white/[0.03]">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Skill Name</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Skill Name</label>
                 <input type="text" name="name" value={form.name} onChange={handleChange} className="input-field" placeholder="e.g. React" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Percentage (0-100)</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Percentage (0-100)</label>
                 <input type="number" name="percentage" value={form.percentage} onChange={handleChange} min="0" max="100" className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Category</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Category</label>
                 <select name="category" value={form.category} onChange={handleChange} className="input-field">
                   {categories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-primary-text mb-1.5">Icon (optional)</label>
+                <label className="block text-sm font-medium text-white mb-1.5">Icon (optional)</label>
                 <input type="text" name="icon" value={form.icon} onChange={handleChange} className="input-field" placeholder="devicon-react-original" />
               </div>
             </div>
@@ -133,29 +133,29 @@ export default function SkillsPanel() {
           {Object.keys(grouped).length === 0 ? (
             <div className="text-center py-12">
               <FiCode className="w-16 h-16 mx-auto text-border mb-4" />
-              <p className="text-secondary-text text-lg font-medium">No skills added yet</p>
-              <p className="text-secondary-text text-sm mt-1">Click "Add Skill" to get started</p>
+              <p className="text-[#94A3B8] text-lg font-medium">No skills added yet</p>
+              <p className="text-[#94A3B8] text-sm mt-1">Click "Add Skill" to get started</p>
             </div>
           ) : (
             <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
               {Object.entries(grouped).map(([category, catskills]) => (
                 <div key={category}>
-                  <h3 className="text-sm font-semibold text-secondary-text uppercase tracking-wider mb-4">{category}</h3>
+                  <h3 className="text-sm font-semibold text-[#94A3B8] uppercase tracking-wider mb-4">{category}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {catskills.map((skill) => (
-                      <motion.div key={skill._id} variants={item} className="flex items-center justify-between p-4 rounded-xl bg-secondary-bg group">
+                      <motion.div key={skill._id} variants={item} className="flex items-center justify-between p-4 rounded-xl bg-[#0D0D1A] group">
                         <div className="flex-1 mr-4">
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-primary-text">{skill.name}</span>
-                            <span className="text-xs font-semibold text-primary">{skill.percentage}%</span>
+                            <span className="text-sm font-medium text-white">{skill.name}</span>
+                            <span className="text-xs font-semibold text-[#00E5FF]">{skill.percentage}%</span>
                           </div>
                           <div className="w-full h-2 bg-border rounded-full overflow-hidden">
-                            <div className="h-full bg-primary rounded-full transition-all duration-700" style={{ width: `${Math.min(skill.percentage, 100)}%` }} />
+                            <div className="h-full bg-[#00E5FF] rounded-full transition-all duration-700" style={{ width: `${Math.min(skill.percentage, 100)}%` }} />
                           </div>
                         </div>
                         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => openEdit(skill)} className="p-1.5 rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors"><FiEdit2 className="w-3.5 h-3.5" /></button>
-                          <button onClick={() => handleDelete(skill._id)} className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"><FiTrash2 className="w-3.5 h-3.5" /></button>
+                          <button onClick={() => openEdit(skill)} className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#00E5FF] hover:bg-[#00E5FF]/10 transition-colors"><FiEdit2 className="w-3.5 h-3.5" /></button>
+                          <button onClick={() => handleDelete(skill._id)} className="p-1.5 rounded-lg text-[#94A3B8] hover:text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors"><FiTrash2 className="w-3.5 h-3.5" /></button>
                         </div>
                       </motion.div>
                     ))}

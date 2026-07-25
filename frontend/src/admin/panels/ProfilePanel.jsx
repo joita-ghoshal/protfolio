@@ -65,7 +65,7 @@ export default function ProfilePanel() {
 
   if (loading) return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="admin-card p-8 md:p-10">
-      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-gray-200 rounded" /><div className="h-10 w-full bg-gray-200 rounded" /><div className="h-10 w-full bg-gray-200 rounded" /></div>
+      <div className="animate-pulse space-y-4"><div className="h-8 w-48 bg-white/[0.03] rounded" /><div className="h-10 w-full bg-white/[0.03] rounded" /><div className="h-10 w-full bg-white/[0.03] rounded" /></div>
     </motion.div>
   );
 
@@ -73,12 +73,12 @@ export default function ProfilePanel() {
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="space-y-6">
       <div className="admin-card p-8 md:p-10">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center"><FiUser className="w-7 h-7 text-primary" /></div>
-          <div><h2 className="text-2xl font-bold text-primary-text">Profile</h2><p className="text-secondary-text text-sm">Manage your personal information</p></div>
+          <div className="w-14 h-14 rounded-2xl bg-[#00E5FF]/10 flex items-center justify-center"><FiUser className="w-7 h-7 text-[#00E5FF]" /></div>
+          <div><h2 className="text-2xl font-bold text-white">Profile</h2><p className="text-[#94A3B8] text-sm">Manage your personal information</p></div>
         </div>
 
         {msg && (
-          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+          <div className={`flex items-center gap-3 p-4 rounded-xl mb-6 ${msg.type === 'success' ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-[#EF4444]/10 text-[#EF4444]'}`}>
             {msg.type === 'success' ? <FiCheckCircle className="w-5 h-5 shrink-0" /> : <FiAlertCircle className="w-5 h-5 shrink-0" />}
             <span className="text-sm font-medium">{msg.text}</span>
           </div>
@@ -93,23 +93,23 @@ export default function ProfilePanel() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Name</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Name</label>
               <input type="text" name="name" value={form.name} onChange={handleChange} className="input-field" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Headline</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Headline</label>
               <input type="text" name="headline" value={form.headline} onChange={handleChange} className="input-field" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Bio</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Bio</label>
               <textarea name="bio" rows={3} value={form.bio} onChange={handleChange} className="input-field" />
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Career Objective</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Career Objective</label>
               <textarea name="career_objective" rows={3} value={form.career_objective} onChange={handleChange} className="input-field" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-primary-text mb-1.5">Location</label>
+              <label className="block text-sm font-medium text-white mb-1.5">Location</label>
               <input type="text" name="location" value={form.location} onChange={handleChange} className="input-field" />
             </div>
           </div>
