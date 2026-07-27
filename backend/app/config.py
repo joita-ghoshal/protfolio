@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: Optional[str] = None
     CLOUDINARY_API_SECRET: Optional[str] = None
 
-    CORS_ORIGINS: str = "https://your-frontend.vercel.app,http://localhost:5173"
+    CORS_ORIGINS: str = "https://frontend-eight-zeta-30.vercel.app,http://localhost:5173"
 
     class Config:
         env_file = ".env"

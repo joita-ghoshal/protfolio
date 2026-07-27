@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: portfolio-backend
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_9EdJ2uGXZiOR@ep-odd-shape-azwea6pr-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        value: Admin@123456
+      - key: ADMIN_EMAIL
+        value: admin@portfolio.com
+      - key: CLOUDINARY_CLOUD_NAME
+        value: protfolio
+      - key: CLOUDINARY_API_KEY
+        value: "162965335767693"
+      - key: CLOUDINARY_API_SECRET
+        value: KFCq8h0DdGDtiEJipLC_ieDt4Ns
+      - key: CORS_ORIGINS
+        value: https://portfolio-frontend-beryl.vercel.app
+      - key: DEBUG
+        value: "false"
