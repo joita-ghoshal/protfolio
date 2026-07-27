@@ -1,5 +1,6 @@
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
+import { useLenis } from '../context/LenisContext';
 
 const sections = [
   { id: 'hero', label: 'Home' },
@@ -16,9 +17,8 @@ export default function ScrollExperience() {
   const [activeSection, setActiveSection] = useState('hero');
   const [hoveredSection, setHoveredSection] = useState(null);
   const [percentage, setPercentage] = useState(0);
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll();
-  const progressHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+  const lenis = useLenis();
+  const progressRef = useRef(null);
 
   useEffect(() => {
     const observers = sections.map(({ id }) => {
@@ -38,38 +38,50 @@ export default function ScrollExperience() {
       return observer;
     });
 
-    const scrollListener = () => {
+    const updateProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0;
-      setPercentage(pct);
+      setPercentage(docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0);
     };
 
-    window.addEventListener('scroll', scrollListener, { passive: true });
-    scrollListener();
+    if (lenis) {
+      lenis.on('scroll', updateProgress);
+    } else {
+      window.addEventListener('scroll', updateProgress, { passive: true });
+    }
+    updateProgress();
 
     return () => {
       observers.forEach((obs) => obs?.disconnect());
-      window.removeEventListener('scroll', scrollListener);
+      if (lenis) {
+        lenis.off('scroll', updateProgress);
+      } else {
+        window.removeEventListener('scroll', updateProgress);
+      }
     };
-  }, []);
+  }, [lenis]);
 
   const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (lenis) {
+      lenis.scrollTo(`#${id}`, { offset: -60, duration: 1.4 });
+    } else {
+      const el = document.getElementById(id);
+      if (el) {
+        window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' });
+      }
     }
   };
 
   return (
     <div
-      ref={containerRef}
       className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-center gap-3 select-none"
     >
       <div className="relative w-px h-[120px] bg-gradient-to-b from-transparent via-[rgba(0,229,255,0.12)] to-transparent rounded-full overflow-hidden">
         <motion.div
+          ref={progressRef}
           className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#00E5FF] to-[#7C3AED] rounded-full"
-          style={{ height: progressHeight }}
+          animate={{ height: `${percentage}%` }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
         />
       </div>
 

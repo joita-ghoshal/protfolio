@@ -1,8 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { HiArrowUp } from 'react-icons/hi';
 import { FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
 import { contactAPI } from '../services/api';
+
+function FooterParticles({ count = 20 }) {
+  const particles = useMemo(() =>
+    Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: 1 + Math.random() * 2,
+      duration: 5 + Math.random() * 8,
+      delay: Math.random() * 6,
+    })), [count]);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: p.size > 1.5 ? 'rgba(0, 229, 255, 0.25)' : 'rgba(124, 58, 237, 0.2)',
+          }}
+          animate={{
+            y: [-8, 8, -8],
+            opacity: [0.1, 0.4, 0.1],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function Footer() {
   const [contact, setContact] = useState(null);
@@ -18,11 +58,44 @@ export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="bg-[#0D0D1A] border-t border-white/[0.06] relative" role="contentinfo">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="bg-[#0D0D1A] border-t border-white/[0.06] relative overflow-hidden" role="contentinfo">
+      <FooterParticles />
+
+      {/* Soft gradient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          className="absolute -top-20 left-1/4 w-64 h-64 rounded-full opacity-[0.04]"
+          style={{
+            background: 'radial-gradient(circle, #00E5FF 0%, transparent 70%)',
+            filter: 'blur(80px)',
+          }}
+          animate={{ x: [0, 30, -20, 0], y: [0, -20, 30, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute -bottom-20 right-1/4 w-48 h-48 rounded-full opacity-[0.03]"
+          style={{
+            background: 'radial-gradient(circle, #7C3AED 0%, transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+          animate={{ x: [0, -20, 30, 0], y: [0, 20, -10, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
+      {/* Glowing line accent */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-px bg-gradient-to-r from-transparent via-[#00E5FF]/30 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold gradient-text">JG</h3>
+            <motion.h3
+              className="text-2xl font-bold gradient-text"
+              animate={{ opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              JG
+            </motion.h3>
             <p className="text-[#94A3B8] text-sm mt-2 tracking-wide">
               Built with <span className="text-[#00E5FF]">precision</span> &amp; <span className="text-[#7C3AED]">passion</span>
             </p>
@@ -52,7 +125,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/[0.06] mt-10 pt-8 text-center">
+        <div className="border-t border-white/[0.06] mt-10 pt-8 text-center relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-px bg-gradient-to-r from-transparent via-[#00E5FF]/40 to-transparent" />
           <p className="text-[#94A3B8]/60 text-sm">
             &copy; {new Date().getFullYear()} JG. All rights reserved.
           </p>

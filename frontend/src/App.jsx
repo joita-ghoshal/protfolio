@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
@@ -14,7 +15,7 @@ export default function App() {
   const isHome = location.pathname === '/';
 
   return (
-    <>
+    <ErrorBoundary>
       {!isAdmin && <Navbar />}
       {isHome && <ScrollExperience />}
       <AnimatePresence mode="wait">
@@ -32,6 +33,6 @@ export default function App() {
         </Routes>
       </AnimatePresence>
       {!isAdmin && <Footer />}
-    </>
+    </ErrorBoundary>
   );
 }

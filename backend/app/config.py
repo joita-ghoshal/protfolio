@@ -5,9 +5,9 @@ from typing import Optional
 class Settings(BaseSettings):
     APP_NAME: str = "Portfolio CMS"
     VERSION: str = "1.0.0"
-    DEBUG: bool = True
+    DEBUG: bool = False
 
-    DATABASE_URL: str = "sqlite+aiosqlite:///./portfolio.db"
+    DATABASE_URL: str = "sqlite:///./portfolio.db"
     SECRET_KEY: str = "dev-secret-key-change-in-production-abc123xyz"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: Optional[str] = None
     CLOUDINARY_API_SECRET: Optional[str] = None
 
-    CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000,https://mydomain.com"
+    CORS_ORIGINS: str = "https://your-frontend.vercel.app,http://localhost:5173"
 
     class Config:
         env_file = ".env"

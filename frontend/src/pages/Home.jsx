@@ -5,6 +5,7 @@ import {
   educationAPI, experienceAPI, contactAPI, analyticsAPI
 } from '../services/api';
 import SectionWrapper from '../components/SectionWrapper';
+import SectionBackground from '../components/SectionBackground';
 import {
   HiDownload, HiExternalLink, HiCode, HiAcademicCap,
   HiBadgeCheck, HiMail, HiPhone, HiLocationMarker,
@@ -88,140 +89,6 @@ function SectionTitle({ children }) {
   );
 }
 
-function FloatingGeometric({ type, className, duration = 8, delay = 0, amplitude = 30 }) {
-  const variants = {
-    animate: {
-      y: [-amplitude, amplitude, -amplitude],
-      x: [0, amplitude * 0.5, -amplitude * 0.3, 0],
-      rotate: [0, type === 'ring' ? 180 : type === 'triangle' ? 15 : 360, 0],
-      opacity: [0.15, 0.3, 0.15],
-    },
-  };
-
-  return (
-    <motion.div
-      className={`absolute pointer-events-none ${className}`}
-      variants={variants}
-      animate="animate"
-      transition={{ duration, repeat: Infinity, ease: 'easeInOut', delay }}
-    >
-      {type === 'circle' && (
-        <div className="w-full h-full rounded-full border border-white/10" />
-      )}
-      {type === 'ring' && (
-        <div className="w-full h-full rounded-full border-2 border-white/5" />
-      )}
-      {type === 'triangle' && (
-        <div
-          className="w-0 h-0"
-          style={{
-            borderLeft: '20px solid transparent',
-            borderRight: '20px solid transparent',
-            borderBottom: '35px solid rgba(255,255,255,0.05)',
-          }}
-        />
-      )}
-    </motion.div>
-  );
-}
-
-function ParticleGrid() {
-  const particles = useMemo(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      delay: Math.random() * 5,
-      duration: 3 + Math.random() * 5,
-    }));
-  }, []);
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            background: p.size > 2.5 ? 'rgba(0, 229, 255, 0.3)' : 'rgba(124, 58, 237, 0.2)',
-          }}
-          animate={{
-            y: [-15, 15, -15],
-            opacity: [0.2, 0.7, 0.2],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function GradientMesh() {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      <motion.div
-        className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%)',
-        }}
-        animate={{ x: [0, 50, -30, 0], y: [0, -40, 20, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)',
-        }}
-        animate={{ x: [0, -40, 30, 0], y: [0, 50, -20, 0] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute top-1/3 right-1/4 w-1/3 h-1/3 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, rgba(0,229,255,0.05) 0%, transparent 70%)',
-        }}
-        animate={{ x: [0, 30, -40, 0], y: [0, -30, 40, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 20% 50%, #00E5FF 1px, transparent 1px),
-            radial-gradient(circle at 80% 30%, #7C3AED 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px, 50px 50px',
-        }}
-      />
-    </div>
-  );
-}
-
-function GlowingBeam() {
-  return (
-    <div className="absolute top-1/2 left-0 right-0 pointer-events-none overflow-hidden" style={{ height: '1px' }}>
-      <motion.div
-        className="h-full w-full"
-        style={{
-          background: 'linear-gradient(90deg, transparent, rgba(0,229,255,0.5), rgba(124,58,237,0.5), transparent)',
-          filter: 'blur(4px)',
-        }}
-        animate={{ x: ['-100%', '100%'] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </div>
-  );
-}
 
 function ScrollIndicator() {
   return (
@@ -356,9 +223,9 @@ function ProjectCard({ project, index }) {
         }}
       >
         <div className="relative overflow-hidden h-48">
-          {project.thumbnail_url ? (
+          {project.thumbnail ? (
             <motion.img
-              src={project.thumbnail_url}
+              src={project.thumbnail}
               alt={project.title}
               className="w-full h-full object-cover"
               style={{ transformStyle: 'preserve-3d' }}
@@ -371,9 +238,9 @@ function ProjectCard({ project, index }) {
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-4 gap-2">
-            {project.github_url && (
+            {project.github_link && (
               <motion.a
-                href={project.github_url}
+                href={project.github_link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-accent hover:border-accent transition-colors"
@@ -383,9 +250,9 @@ function ProjectCard({ project, index }) {
                 <FiGithub size={16} />
               </motion.a>
             )}
-            {project.live_url && (
+            {project.live_demo && (
               <motion.a
-                href={project.live_url}
+                href={project.live_demo}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-accent hover:border-accent transition-colors"
@@ -416,18 +283,22 @@ function ProjectCard({ project, index }) {
           <p className="text-sm text-gray-400 line-clamp-2 mb-3">
             {project.description || ''}
           </p>
-          {project.technologies?.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {project.technologies.map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2.5 py-1 text-xs rounded-full border border-white/10 text-gray-400 bg-white/5"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          )}
+          {(() => {
+            const techs = Array.isArray(project.technologies) ? project.technologies : 
+                         (project.technologies ? project.technologies.split(',').map(t => t.trim()) : []);
+            return techs.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {techs.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2.5 py-1 text-xs rounded-full border border-white/10 text-gray-400 bg-white/5"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            ) : null;
+          })()}
         </div>
       </motion.div>
     </motion.div>
@@ -586,22 +457,61 @@ function CertificateLightbox({ cert, onClose }) {
   );
 }
 
+function ParticleField({ count = 40 }) {
+  const particles = useMemo(() =>
+    Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: 1 + Math.random() * 2.5,
+      duration: 4 + Math.random() * 6,
+      delay: Math.random() * 5,
+    })), [count]);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: p.size > 2 ? 'rgba(0, 229, 255, 0.4)' : 'rgba(124, 58, 237, 0.3)',
+            boxShadow: p.size > 2 ? '0 0 6px rgba(0, 229, 255, 0.3)' : 'none',
+          }}
+          animate={{
+            y: [-12, 12, -12],
+            opacity: [0.15, 0.6, 0.15],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function HeroSection({ about }) {
   const heroRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const handleMouse = (e) => {
-      if (!heroRef.current) return;
-      const rect = heroRef.current.getBoundingClientRect();
-      setMousePos({
-        x: ((e.clientX - rect.left) / rect.width - 0.5) * 2,
-        y: ((e.clientY - rect.top) / rect.height - 0.5) * 2,
-      });
-    };
-    window.addEventListener('mousemove', handleMouse);
-    return () => window.removeEventListener('mousemove', handleMouse);
-  }, []);
+  const entrance = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.12, delayChildren: 0.3 },
+    },
+  };
+
+  const fadeSlideUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
+  };
 
   return (
     <section
@@ -609,68 +519,187 @@ function HeroSection({ about }) {
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0A0A12]"
     >
-      <GradientMesh />
-      <ParticleGrid />
-      <GlowingBeam />
-
-      <FloatingGeometric type="circle" className="w-64 h-64 top-[10%] left-[8%]" duration={9} delay={0} amplitude={40} />
-      <FloatingGeometric type="ring" className="w-40 h-40 top-[25%] right-[12%]" duration={7} delay={1.5} amplitude={25} />
-      <FloatingGeometric type="triangle" className="top-[60%] left-[5%]" duration={11} delay={3} amplitude={35} />
-      <FloatingGeometric type="circle" className="w-32 h-32 bottom-[15%] right-[8%]" duration={8} delay={2} amplitude={20} />
-      <FloatingGeometric type="ring" className="w-56 h-56 top-[55%] right-[30%]" duration={10} delay={0.5} amplitude={30} />
-      <FloatingGeometric type="circle" className="w-20 h-20 top-[15%] right-[35%]" duration={6} delay={4} amplitude={15} />
-
-      <motion.div
-        className="absolute w-96 h-96 rounded-full border border-accent/10"
-        style={{
-          x: useTransform(useMotionValue(mousePos.x), [-1, 1], [-30, 30]),
-          y: useTransform(useMotionValue(mousePos.y), [-1, 1], [-30, 30]),
-        }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-      />
-
-      <div className="relative z-10 text-center max-w-5xl mx-auto px-4">
+      {/* Aurora gradient orbs */}
+      <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
+          className="absolute -top-1/3 -left-1/4 w-2/3 h-2/3 rounded-full opacity-[0.12]"
+          style={{
+            background: 'radial-gradient(circle, #00E5FF 0%, transparent 70%)',
+            filter: 'blur(100px)',
+          }}
+          animate={{ x: [0, 80, -40, 0], y: [0, -60, 40, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute -bottom-1/4 -right-1/4 w-3/5 h-3/5 rounded-full opacity-[0.10]"
+          style={{
+            background: 'radial-gradient(circle, #7C3AED 0%, transparent 70%)',
+            filter: 'blur(120px)',
+          }}
+          animate={{ x: [0, -60, 50, 0], y: [0, 70, -30, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute top-1/4 left-1/3 w-1/3 h-1/3 rounded-full opacity-[0.06]"
+          style={{
+            background: 'radial-gradient(circle, #FF6B9D 0%, transparent 70%)',
+            filter: 'blur(90px)',
+          }}
+          animate={{ x: [0, 50, -60, 0], y: [0, -40, 50, 0] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 right-1/3 w-1/4 h-1/4 rounded-full opacity-[0.05]"
+          style={{
+            background: 'radial-gradient(circle, #00E5FF 0%, transparent 70%)',
+            filter: 'blur(80px)',
+          }}
+          animate={{ x: [0, -40, 30, 0], y: [0, 50, -40, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
+      {/* Floating glowing orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          className="absolute w-64 h-64 rounded-full border border-[#00E5FF]/20"
+          style={{ top: '15%', left: '8%' }}
+          animate={{
+            y: [0, -25, 0, 25, 0],
+            x: [0, 15, -10, -15, 0],
+            rotate: 360,
+            scale: [1, 1.05, 0.95, 1],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
         >
+          <div className="absolute inset-4 rounded-full bg-[#00E5FF]/5 blur-[40px]" />
+        </motion.div>
+        <motion.div
+          className="absolute w-48 h-48 rounded-full border border-[#7C3AED]/20"
+          style={{ bottom: '20%', right: '10%' }}
+          animate={{
+            y: [0, 20, -15, 0],
+            x: [0, -20, 10, 0],
+            rotate: -360,
+            scale: [1, 0.95, 1.05, 1],
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div className="absolute inset-3 rounded-full bg-[#7C3AED]/5 blur-[30px]" />
+        </motion.div>
+        <motion.div
+          className="absolute w-32 h-32 rounded-full border border-[#FF6B9D]/15"
+          style={{ top: '60%', left: '15%' }}
+          animate={{
+            y: [0, -15, 10, 0],
+            x: [0, 10, -15, 0],
+            rotate: 180,
+            scale: [1, 1.1, 0.9, 1],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div className="absolute inset-2 rounded-full bg-[#FF6B9D]/5 blur-[20px]" />
+        </motion.div>
+      </div>
+
+      {/* Energy rings */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+        <motion.div
+          className="absolute w-[500px] h-[500px] rounded-full border border-[#00E5FF]/10"
+          animate={{ rotate: 360, scale: [1, 1.02, 0.98, 1] }}
+          transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-16 bg-gradient-to-b from-[#00E5FF]/30 to-transparent" />
+        </motion.div>
+        <motion.div
+          className="absolute w-[350px] h-[350px] rounded-full border border-[#7C3AED]/8"
+          animate={{ rotate: -360, scale: [0.98, 1.02, 0.98] }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-12 bg-gradient-to-t from-[#7C3AED]/30 to-transparent" />
+        </motion.div>
+        <motion.div
+          className="absolute w-[200px] h-[200px] rounded-full border border-[#FF6B9D]/8"
+          animate={{ rotate: 180, scale: [1, 0.96, 1.04, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        >
+          <div className="absolute top-1/2 -right-2 w-4 h-4 rounded-full bg-[#FF6B9D]/30 blur-[4px]" />
+        </motion.div>
+      </div>
+
+      {/* Holographic wave */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.06]">
+        <motion.div
+          className="absolute -left-1/4 top-0 w-[150%] h-full"
+          style={{
+            background: 'repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,229,255,0.3) 40px, rgba(0,229,255,0.3) 41px)',
+            transform: 'skewX(-10deg)',
+          }}
+          animate={{ x: [0, 80, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
+      {/* Light rays */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          className="absolute top-0 left-[15%] w-px h-full bg-gradient-to-b from-transparent via-[#00E5FF]/15 to-transparent"
+          animate={{ opacity: [0.2, 0.6, 0.2] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute top-0 left-[35%] w-px h-full bg-gradient-to-b from-transparent via-[#7C3AED]/12 to-transparent"
+          animate={{ opacity: [0.15, 0.5, 0.15] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        />
+        <motion.div
+          className="absolute top-0 left-[55%] w-px h-full bg-gradient-to-b from-transparent via-[#00E5FF]/10 to-transparent"
+          animate={{ opacity: [0.1, 0.4, 0.1] }}
+          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
+        <motion.div
+          className="absolute top-0 left-[75%] w-px h-full bg-gradient-to-b from-transparent via-[#7C3AED]/12 to-transparent"
+          animate={{ opacity: [0.2, 0.55, 0.2] }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+        />
+        <motion.div
+          className="absolute top-0 left-[92%] w-px h-full bg-gradient-to-b from-transparent via-[#FF6B9D]/10 to-transparent"
+          animate={{ opacity: [0.1, 0.4, 0.1] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        />
+      </div>
+
+      {/* Floating particles */}
+      <ParticleField count={60} />
+
+      {/* Grid overlay */}
+      <div className="hero-grid-overlay animate-breathe opacity-[0.03]" />
+
+      <motion.div variants={entrance} initial="hidden" animate="visible" className="relative z-10 text-center max-w-5xl mx-auto px-4">
+        <motion.div variants={fadeSlideUp}>
           <motion.span
             className="inline-block px-5 py-2 rounded-full bg-white/5 border border-white/10 text-accent text-sm font-medium mb-6 backdrop-blur-sm"
-            whileHover={{ borderColor: 'rgba(0,229,255,0.4)' }}
+            whileHover={{ borderColor: 'rgba(0,229,255,0.4)', scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
+            <motion.span
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="inline-block w-1.5 h-1.5 rounded-full bg-accent mr-2"
+            />
             Welcome to my portfolio
           </motion.span>
         </motion.div>
 
-        <motion.h1
-          className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.7 }}
-        >
-          <TypewriterText
-            text={about?.name || "Hi, I'm a Developer"}
-            className="gradient-text"
-          />
+        <motion.h1 variants={fadeSlideUp} className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6">
+          <TypewriterText text={about?.name || "Hi, I'm a Developer"} className="gradient-text" />
         </motion.h1>
 
-        <motion.p
-          className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
+        <motion.p variants={fadeSlideUp} className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
           {about?.headline || 'Crafting digital experiences with code and creativity'}
         </motion.p>
 
-        <motion.div
-          className="flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
+        <motion.div variants={fadeSlideUp} className="flex flex-wrap justify-center gap-4">
           <motion.a
             href="#projects"
             className="premium-btn text-base px-8 py-3 inline-flex items-center gap-2"
@@ -690,41 +719,27 @@ function HeroSection({ about }) {
         </motion.div>
 
         {about?.resume_url && (
-          <motion.div
-            className="mt-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-          >
+          <motion.div variants={fadeSlideUp}>
             <a
               href={about.resume_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent transition-colors mt-8"
             >
               <HiDownload size={16} /> Download Resume
             </a>
           </motion.div>
         )}
-      </div>
+      </motion.div>
 
       <ScrollIndicator />
     </section>
   );
 }
 
-function useMotionValue(value) {
-  const [val, setVal] = useState(value);
-  useEffect(() => {
-    const timeout = setTimeout(() => setVal(value), 16);
-    return () => clearTimeout(timeout);
-  }, [value]);
-  return val;
-}
-
 function AboutSection({ about, stats }) {
   return (
-    <SectionWrapper id="about">
+    <SectionWrapper id="about" bgClass="section-bg-about" background={<SectionBackground variant="about" />}>
       <SectionTitle>About Me</SectionTitle>
       <div className="grid md:grid-cols-5 gap-10 items-center">
         <motion.div
@@ -745,9 +760,9 @@ function AboutSection({ about, stats }) {
                 }}
               />
               <div className="absolute inset-[3px] rounded-[16px] bg-[#0A0A12] z-[1]" />
-              {about?.profile_image_url ? (
+              {about?.profile_image ? (
                 <img
-                  src={about.profile_image_url}
+                  src={about.profile_image}
                   alt={about.name || 'Profile'}
                   className="absolute inset-[3px] z-[2] w-[calc(100%-6px)] h-[calc(100%-6px)] object-cover rounded-[16px]"
                 />
@@ -844,7 +859,7 @@ function SkillsSection({ skills }) {
   }, [categories, activeCategory]);
 
   return (
-    <SectionWrapper id="skills" className="section-bg-alt">
+    <SectionWrapper id="skills" className="section-bg-alt" bgClass="section-bg-skills" background={<SectionBackground variant="skills" />}>
       <SectionTitle>Skills & Expertise</SectionTitle>
       {categories.length === 0 ? (
         <p className="text-gray-500 text-center py-10">No skills added yet.</p>
@@ -885,7 +900,7 @@ function SkillsSection({ skills }) {
                   </h3>
                   {grouped[activeCategory].map((skill, i) => (
                     <SkillBar
-                      key={skill._id || skill.name}
+                      key={skill.id || skill.name}
                       name={skill.name}
                       percentage={skill.percentage || 0}
                       index={i}
@@ -907,7 +922,7 @@ function ProjectsSection({ projects, projectFilter, setProjectFilter }) {
     : projects.filter((p) => p.status === projectFilter);
 
   return (
-    <SectionWrapper id="projects">
+    <SectionWrapper id="projects" bgClass="section-bg-projects" background={<SectionBackground variant="projects" />}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <SectionTitle>Featured Projects</SectionTitle>
         <motion.div
@@ -953,7 +968,7 @@ function ProjectsSection({ projects, projectFilter, setProjectFilter }) {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {filtered.map((project, i) => (
-              <ProjectCard key={project._id || project.title} project={project} index={i} />
+              <ProjectCard key={project.id || project.title} project={project} index={i} />
             ))}
           </motion.div>
         )}
@@ -964,7 +979,7 @@ function ProjectsSection({ projects, projectFilter, setProjectFilter }) {
 
 function ExperienceSection({ experience }) {
   return (
-    <SectionWrapper id="experience" className="section-bg-alt">
+    <SectionWrapper id="experience" className="section-bg-alt" bgClass="section-bg-experience" background={<SectionBackground variant="experience" />}>
       <SectionTitle>Work Experience</SectionTitle>
       {experience.length === 0 ? (
         <p className="text-gray-500 text-center py-10">No experience listed yet.</p>
@@ -973,7 +988,7 @@ function ExperienceSection({ experience }) {
           <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-accent/40 via-accent/20 to-transparent" />
           <div className="space-y-10">
             {experience.map((exp, i) => (
-              <TimelineItem key={exp._id || i} exp={exp} index={i} />
+              <TimelineItem key={exp.id || i} exp={exp} index={i} />
             ))}
           </div>
         </div>
@@ -984,7 +999,7 @@ function ExperienceSection({ experience }) {
 
 function EducationSection({ education }) {
   return (
-    <SectionWrapper id="education">
+    <SectionWrapper id="education" bgClass="section-bg-education" background={<SectionBackground variant="education" />}>
       <SectionTitle>Education</SectionTitle>
       {education.length === 0 ? (
         <p className="text-gray-500 text-center py-10">No education entries yet.</p>
@@ -998,7 +1013,7 @@ function EducationSection({ education }) {
         >
           {education.map((edu, i) => (
             <motion.div
-              key={edu._id || i}
+              key={edu.id || i}
               variants={fadeUp}
               className="card-premium p-6"
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
@@ -1028,7 +1043,7 @@ function CertificatesSection({ certificates }) {
   const [lightboxCert, setLightboxCert] = useState(null);
 
   return (
-    <SectionWrapper id="certificates" className="section-bg-alt">
+    <SectionWrapper id="certificates" className="section-bg-alt" bgClass="section-bg-certificates" background={<SectionBackground variant="certificates" />}>
       <SectionTitle>Certificates</SectionTitle>
       {certificates.length === 0 ? (
         <p className="text-gray-500 text-center py-10">No certificates yet.</p>
@@ -1042,7 +1057,7 @@ function CertificatesSection({ certificates }) {
         >
           {certificates.map((cert) => (
             <CertificateCard
-              key={cert._id || cert.title}
+              key={cert.id || cert.title}
               cert={cert}
               onView={setLightboxCert}
             />
@@ -1061,7 +1076,7 @@ function CertificatesSection({ certificates }) {
 
 function ContactSection({ contact }) {
   return (
-    <SectionWrapper id="contact">
+    <SectionWrapper id="contact" bgClass="section-bg-contact" background={<SectionBackground variant="contact" />}>
       <SectionTitle>Get In Touch</SectionTitle>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -1199,7 +1214,7 @@ export default function Home() {
   useEffect(() => {
     analyticsAPI.track().catch(() => {});
     Promise.all([
-      aboutAPI.get().then((r) => setAbout(r.data)),
+      aboutAPI.get().then((r) => setAbout(Array.isArray(r.data) ? r.data[0] : r.data)),
       skillsAPI.get().then((r) => setSkills(Array.isArray(r.data) ? r.data : [])),
       projectsAPI.get().then((r) => setProjects(Array.isArray(r.data) ? r.data : [])),
       certificatesAPI.get().then((r) => setCertificates(Array.isArray(r.data) ? r.data : [])),

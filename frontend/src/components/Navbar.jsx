@@ -85,7 +85,7 @@ const Navbar = () => {
             JG
           </motion.a>
 
-          <div className="hidden md:flex items-center gap-1 relative">
+          <div className="hidden md:flex items-center gap-1 relative p-1">
             {NAV_ITEMS.map((item) => {
               const sectionId = item.href.slice(1);
               const isActive = activeSection === sectionId;
@@ -99,21 +99,20 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(item.href);
                   }}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
-                    isActive
-                      ? 'text-[#00E5FF]'
-                      : 'text-gray-400 hover:text-gray-200'
-                  }`}
+                  className="relative px-4 py-2 text-sm font-medium transition-colors duration-200"
+                  style={{ zIndex: 1 }}
                 >
-                  {item.label}
+                  <span className={`relative z-10 transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-400 hover:text-gray-200'}`}>
+                    {item.label}
+                  </span>
                   {isActive && (
                     <motion.div
                       layoutId="navIndicator"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#00E5FF] rounded-full"
+                      className="absolute inset-0 rounded-[10px] nav-indicator-glow"
                       style={{
-                        boxShadow: '0 0 8px #00E5FF, 0 0 20px rgba(0,229,255,0.4)',
+                        background: 'linear-gradient(135deg, #00E5FF, #7C3AED)',
                       }}
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                     />
                   )}
                 </a>

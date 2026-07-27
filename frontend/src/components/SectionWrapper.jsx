@@ -14,7 +14,7 @@ const sectionVariants = {
   },
 };
 
-export default function SectionWrapper({ id, children, className = '', alternate = false }) {
+export default function SectionWrapper({ id, children, className = '', alternate = false, bgClass = '', background = null }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -22,13 +22,14 @@ export default function SectionWrapper({ id, children, className = '', alternate
     <section
       id={id}
       ref={ref}
-      className={`py-20 md:py-28 ${alternate ? 'bg-[#0D0D1A]' : 'bg-[#0A0A12]'} ${className}`}
+      className={`relative py-20 md:py-28 ${alternate ? 'bg-[#0D0D1A]' : 'bg-[#0A0A12]'} ${bgClass} ${className}`}
     >
+      {background}
       <motion.div
         variants={sectionVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {children}
       </motion.div>
